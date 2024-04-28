@@ -1,0 +1,71 @@
+name: Launcher de Spreen Studios
+
+on: workflow_dispatch
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        # os: [ubuntu-latest, macos-latest, windows-latest] // Removido por costos
+        os: [windows-latest]
+
+    steps:
+      - name: Obtención de código fuente
+        uses: actions/checkout@v3
+        with:
+          repository: 'CodeBids/spreen-launcher-vite'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Instalación de Node.js 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Guardado de cache de Yarn
+        uses: c-hive/gha-yarn-cache@v2
+      
+      - name: Instalación de dependencias
+        run: yarn
+
+      # - name: Instalar dependencias
+      #   uses: covbot/pnpm-install-with-cache@v1
+
+      # - name: Compilar en Ubuntu
+      #   if: matrix.os == 'ubuntu-latest'
+      #   run: pnpm build:linux
+
+      # - name: Compilar en macOS
+      #   if: matrix.os == 'macos-latest'
+      #   run: pnpm build:mac
+
+      - name: Compilación de la app
+        if: matrix.os == 'windows-latest'
+        run: yarn build:win
+        
+      # - name: Empaquetar en zip (raw)
+      #   if: matrix.os == 'windows-latest'
+      #   run: pnpm build:unpack
+
+      - name: Creación de la release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: |
+            dist/*.exe
+            dist/*.zip
+            dist/*.dmg
+            dist/*.AppImage
+            dist/*.snap
+            dist/*.deb
+            dist/*.rpm
+            dist/*.tar.gz
+            dist/*.yml
+            dist/*.blockmap
+          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+    permissions:
+      contents: write
