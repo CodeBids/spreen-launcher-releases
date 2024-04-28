@@ -17,6 +17,7 @@ jobs:
         with:
           repository: 'CodeBids/spreen-launcher-vite'
           token: ${{ secrets.GITHUB_TOKEN }}
+          ref: 'main'
 
       - name: Instalación de Node.js 18
         uses: actions/setup-node@v3
