@@ -23,7 +23,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-      
+
+      - name: Ejecución de yarn-deduplicate
+        run: npx yarn-deduplicate yarn.lock
+        
       - name: Instalación de dependencias
         run: yarn
 
