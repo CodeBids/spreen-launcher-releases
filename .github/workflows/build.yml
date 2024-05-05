@@ -24,8 +24,8 @@ jobs:
         with:
           node-version: 18
 
-      - name: Ejecución de yarn-deduplicate
-        run: npx yarn-deduplicate yarn.lock
+      # - name: Ejecución de yarn-deduplicate
+      #  run: npx yarn-deduplicate yarn.lock
         
       - name: Instalación de dependencias
         run: yarn
