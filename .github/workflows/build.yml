@@ -23,9 +23,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: Guardado de cache de Yarn
-        uses: c-hive/gha-yarn-cache@v2
       
       - name: Instalación de dependencias
         run: yarn
